@@ -1,10 +1,11 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCurrentUser } from "../services/get-current-user";
+import { getCurrentUser } from "../../modules/auth/services/get-current-user";
+import { UserAuth } from "../types/user-auth";
 
 interface GetCurrentUserContextType {
-  user: any | null;
+  user: UserAuth | null;
   loading: boolean;
   reloadUser: () => Promise<void>;
 }

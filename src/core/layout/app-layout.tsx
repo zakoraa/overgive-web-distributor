@@ -8,6 +8,7 @@ import { useLogout } from "@/modules/auth/hooks/use-logout";
 import { ModalLoading } from "@/core/components/ui/modal/modal-loading";
 import { ModalInfo } from "@/core/components/ui/modal/modal-info";
 import { Assigment } from "@/modules/assignment/pages/assignment";
+import { Account } from "@/modules/account";
 
 export default function AppLayout() {
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
@@ -52,6 +53,7 @@ export default function AppLayout() {
       <div className="flex-1 overflow-auto p-6">
         {/* {activeTab === "dashboard" && <Dashboard />} */}
         {tab === "assignment" && <Assigment />}
+        {tab === "account" && <Account />}
       </div>
 
       {/* Modal Logout */}
