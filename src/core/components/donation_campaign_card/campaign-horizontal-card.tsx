@@ -1,45 +1,60 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Label } from "@/core/components/text/label";
-import { Card } from "@/core/components/ui/card";
-import { DonationProgressIndicator } from "@/core/components/ui/donation-progress-indicator";
+import { Label } from "../text/label";
+import { Card } from "../ui/card";
+import Image from "next/image";
 
-export const CampaignHorizontalCard = () => {
+interface CampaignHorizontalCardProps {
+  image?: string;
+  title?: string;
+  latestNewsCount?: number;
+  remainingDays?: number | null;
+  onClickUrl?: string;
+}
+
+export const CampaignHorizontalCard = ({
+  image = "/icons/ic-overgive-logo.svg",
+  title = "Judul Kampanye",
+  latestNewsCount = 0,
+  remainingDays = null,
+  onClickUrl = "/campaign",
+}: CampaignHorizontalCardProps) => {
   const router = useRouter();
-  const percentage = 65;
 
   return (
     <Card
-      onClick={() => router.push("/campaign")}
-      className="hover:bg-hover flex h-30 cursor-pointer transition-colors duration-300"
+      onClick={() => router.push(onClickUrl)}
+      className="hover:bg-hover md:rounded-2xl rounded-lg flex h-fit cursor-pointer transition-colors duration-300"
     >
-      <img
-        src={
-          "https://www.jagaindonesia.com/wp-content/uploads/2023/03/Papua.jpg"
-        }
+      <Image
+        src={image}
         height={100}
         width={200}
         alt="campaign-image"
-        className="h-full rounded-s-2xl object-cover"
+        className="min-h-full w-[100px] md:rounded-s-2xl rounded-s-lg  object-cover lg:w-[200px]"
       />
-      <div className="m-3 flex flex-col justify-between">
-        <Label
-          size="md"
-          className="text-start"
-          text="Bantuan Pembangunan Sekolah Di Papua"
-        />
-        <div className="space-y-1">
-          <p className="text-xs">
-            Terkumpul{"  "}
-            <span className="text-primary font-black">Rp 200.000.000</span>
-          </p>
-          <DonationProgressIndicator percentage={percentage} />
-          <p className="mt-3 text-end text-xs">
-            Target Donasi{"  "}
-            <span className="font-black">Rp 1.000.000.000</span>
+
+      <div className="mx-2 my-1 flex w-full flex-col justify-between md:mx-3 md:my-3">
+        <Label size="md" className="cursor-pointer text-start" text={title} />
+
+        <div className="flex flex-col items-start justify-start space-y-1">
+          <div className="flex items-center justify-center gap-1">
+            <Image
+              src={"/icons/ic-latest-news.svg"}
+              alt={"latest-news-icon"}
+              height={20}
+              width={20}
+            />
+          </div>
+          <p className="text-center text-xs font-bold">
+            {latestNewsCount} Kabar Ditambahkan
           </p>
         </div>
+
+        {(remainingDays || remainingDays !== 0) && (
+          <p className="mt-3 text-end text-[11px]">{remainingDays} Hari Lagi</p>
+        )}
       </div>
     </Card>
   );

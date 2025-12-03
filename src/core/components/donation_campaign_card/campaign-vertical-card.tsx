@@ -1,45 +1,66 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Label } from "@/core/components/text/label";
-import { Card } from "@/core/components/ui/card";
-import { DonationProgressIndicator } from "@/core/components/ui/donation-progress-indicator";
+import { Card } from "../ui/card";
+import { Label } from "../text/label";
+import Image from "next/image";
 
-export const CampaignVerticalCard = () => {
+interface CampaignVerticalCardProps {
+  image?: string;
+  title?: string;
+  latestNewsCount?: number;
+  remainingDays?: number | null;
+  onClickUrl?: string;
+}
+
+export const CampaignVerticalCard = ({
+  image = "/icons/ic-overgive-logo.svg",
+  title = "Judul Kampanye",
+  latestNewsCount = 0,
+  remainingDays = null,
+  onClickUrl = "/",
+}: CampaignVerticalCardProps) => {
   const router = useRouter();
-  const percentage = 65;
 
   return (
     <Card
-      onClick={() => router.push("/campaign")}
-      className="hover:bg-hover mt-3 flex h-72 w-56 cursor-pointer flex-col transition-colors duration-300"
+      onClick={() => router.push(onClickUrl)}
+      className="hover:bg-hover mt-3 flex h-full max-w-52 cursor-pointer flex-col transition-colors duration-300"
     >
-      <img
-        src={
-          "https://www.jagaindonesia.com/wp-content/uploads/2023/03/Papua.jpg"
-        }
+      <Image
+        src={image}
         height={60}
         width={250}
         alt="campaign-image"
-        className="h-full rounded-t-2xl object-cover"
+        className="h-32 min-w-full rounded-t-2xl object-cover"
       />
-      <div className="m-3 flex flex-col justify-between space-y-2">
+
+      <div className="m-3 flex flex-col justify-between space-y-2 h-full">
         <Label
-          size="sm"
-          className="text-start font-bold"
-          text="Bantuan Pembangunan Sekolah Di Papua"
+          size="md"
+          className="cursor-pointer text-start font-bold"
+          text={title}
         />
-        <div className="space-y-1">
-          <p className="text-[10px]">
-            Terkumpul{"  "}
-            <span className="text-primary font-black">Rp 200.000.000</span>
-          </p>
-          <DonationProgressIndicator percentage={percentage} />
-          <p className="mt-3 text-end text-[10px]">
-            Target Donasi{"  "}
-            <span className="font-black">Rp 1.000.000.000</span>
+
+        <div className="flex flex-col items-start justify-start space-y-1">
+          <div className="flex items-center justify-center gap-1">
+            <Image
+              src={"/icons/ic-latest-news.svg"}
+              alt={"latest-news-icon"}
+              height={20}
+              width={20}
+            />
+          </div>
+          <p className="text-center text-xs font-bold">
+            {latestNewsCount} Kabar Ditambahkan
           </p>
         </div>
+
+        {(remainingDays || remainingDays !== 0) ? (
+          <p className="mt-auto self-end text-end text-[11px]">
+            {remainingDays} Hari Lagi
+          </p>
+        ):<div></div>}
       </div>
     </Card>
   );

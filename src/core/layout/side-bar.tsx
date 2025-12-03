@@ -13,7 +13,7 @@ export default function SideBar({ activeTab, setActiveTab }: SideBarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="z-50 bg-white">
+    <div className="z-50 bg-white overflow-y-hidden">
       {/* Burger Button (Mobile Only) */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}

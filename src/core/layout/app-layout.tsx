@@ -51,7 +51,6 @@ export default function AppLayout() {
 
       {/* Konten Dinamis */}
       <div className="flex-1 overflow-auto p-6">
-        {/* {activeTab === "dashboard" && <Dashboard />} */}
         {tab === "assignment" && <Assigment />}
         {tab === "account" && <Account />}
       </div>

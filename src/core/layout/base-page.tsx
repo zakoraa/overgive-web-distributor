@@ -10,7 +10,7 @@ export default function BasePage({ children, className }: BasePageProps) {
   return (
     <main
       className={clsx(
-        "container flex  min-w-full flex-col items-center space-y-5 py-3 text-center",
+        "container flex min-w-full flex-col items-center space-y-5 py-3 text-center",
         className,
       )}
     >

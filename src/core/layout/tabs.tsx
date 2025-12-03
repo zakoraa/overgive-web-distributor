@@ -16,11 +16,6 @@ export type TabItem = {
 
 export const tabs: TabItem[] = [
   {
-    id: "dashboard",
-    label: "Dasbor",
-    icon: <LayoutDashboard className="h-5 w-5" />,
-  },
-  {
     id: "assignment",
     label: "Penugasan Distribusi",
     icon: <Package className="h-5 w-5" />,
