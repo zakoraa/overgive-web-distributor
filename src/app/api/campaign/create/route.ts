@@ -1,17 +1,25 @@
-import { supabaseServer } from "@/core/lib/supabase/supabase-server";
+// import { writeDeliveryReport } from "@/modules/campaign/pages/create_delivery_report/blockchain/write-delivery-report";
 
-export async function POST(req: Request) {
-  const data = await req.json();
-  const supabase = await supabaseServer();
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
 
-  const { data: result, error } = await supabase
-    .from("campaigns")
-    .insert([data])
-    .select()
-    .single();
+//     const txHash = await writeDeliveryReport({
+//       privateKey: process.env.POLYGON_PRIVATE_KEY as `0x${string}`,
+//       contractAddress: process.env.POLYGON_CONTRACT as `0x${string}`,
+//       abi,
+//       reportId: body.reportId,
+//       title: body.title,
+//       note: body.note,
+//       distributorId: body.userId,
+//     });
 
-  if (error)
-    return Response.json({ error: error.message }, { status: 400 });
-
-  return Response.json(result);
-}
+//     return Response.json({ success: true, txHash });
+//   } catch (err) {
+//     console.error(err);
+//     return Response.json(
+//       { success: false, message: "Blockchain error", error: err },
+//       { status: 500 }
+//     );
+//   }
+// }

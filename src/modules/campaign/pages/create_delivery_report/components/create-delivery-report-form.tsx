@@ -11,6 +11,7 @@ import { useGetCurrentUserContext } from "@/core/providers/use-get-current-user"
 import router from "next/router";
 import { AppInput } from "@/core/components/ui/input/app-input";
 import { useCreateReportValidation } from "../hooks/use-create-delivery-report-form-validation";
+import { useDeliveryReport } from "../hooks/use-create-delivery";
 
 export const CreateDeliveryReportForm = () => {
   //   const router = useRouter();
@@ -24,6 +25,8 @@ export const CreateDeliveryReportForm = () => {
   });
 
   const { errors, validate } = useCreateReportValidation();
+
+  const { loading, error, success, submit } = useDeliveryReport();
 
   const { user } = useGetCurrentUserContext();
   const {
@@ -53,12 +56,7 @@ export const CreateDeliveryReportForm = () => {
       return;
     }
     try {
-      //   await createAssignment({
-      //     assigned_by: user.id,
-      //     title: formData.title,
-      //     campaign_id: formData.campaign_id,
-      //     note: formData.note || null,
-      //   });
+      await submit(formData);
 
       setModalInfoData({
         title: "Berhasil!",
@@ -95,6 +93,7 @@ export const CreateDeliveryReportForm = () => {
 
   return (
     <>
+      <ModalLoading isOpen={loading} />
       <form
         className="space-y-4 pb-20"
         onSubmit={(e) => {
