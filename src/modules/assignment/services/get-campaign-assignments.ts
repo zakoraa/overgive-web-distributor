@@ -28,8 +28,6 @@ export async function getCampaignAssignments(
         throw new Error("User tidak terautentikasi");
     }
 
-    console.log("AUTH ID:", user.id);
-
     // 2. Ambil user ID di table users
     const { data: userRow, error: userRowError } = await supabase
         .from("users")
@@ -40,8 +38,6 @@ export async function getCampaignAssignments(
     if (userRowError || !userRow) {
         throw new Error("User tidak ditemukan di table users");
     }
-
-    console.log("USER ROW ID:", userRow.id);
 
     // ----------------------------------------------------
     // Query utama: distributor_assignments → campaigns
@@ -65,7 +61,6 @@ export async function getCampaignAssignments(
         .is("deleted_at", null)
         .range(offset, offset + limit - 1);
 
-    // console.log("QUERY ASSIGNMENT: ", query)
     // Filter category jika dikirim
     if (category) {
         query = query.eq("campaign.category", category);
@@ -90,8 +85,6 @@ export async function getCampaignAssignments(
         console.error("Supabase error:", error);
         throw new Error(error.message);
     }
-    console.log("DATA ASSIGMENT: ", data)
-
 
     // ----------------------------------------------------
     // Mapping data
@@ -116,7 +109,5 @@ export async function getCampaignAssignments(
                 remainingDays: diff > 0 ? diff : 0,
             };
         });
-    console.log("MAPPED ASSIGMENT: ", mapped)
-
     return mapped;
 }

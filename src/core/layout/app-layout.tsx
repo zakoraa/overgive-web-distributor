@@ -7,8 +7,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useLogout } from "@/modules/auth/hooks/use-logout";
 import { ModalLoading } from "@/core/components/ui/modal/modal-loading";
 import { ModalInfo } from "@/core/components/ui/modal/modal-info";
-import { Assigment } from "@/modules/assignment/pages/assignment";
 import { Account } from "@/modules/account";
+import { Assigment } from "@/modules/assignment";
 
 export default function AppLayout() {
   const [modalInfoOpen, setModalInfoOpen] = useState(false);

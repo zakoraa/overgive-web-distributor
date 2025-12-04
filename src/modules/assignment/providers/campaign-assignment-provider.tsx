@@ -42,7 +42,6 @@ export const CampaignAssignmentProvider = ({ children }: ProviderProps) => {
   const [search, setSearch] = useState("");
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
-
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;
 
@@ -55,11 +54,18 @@ export const CampaignAssignmentProvider = ({ children }: ProviderProps) => {
 
     if (res.length === 0) {
       setHasMore(false);
+      setLoading(false);
+      return;
     }
 
-    setItems((prev) => [...prev, ...res]);
-    setOffset((prev) => prev + LIMIT);
+    // cegah duplikasi kalau API balikin data yang sama
+    setItems((prev) => {
+      const existingIds = new Set(prev.map((i) => i.id));
+      const filtered = res.filter((i) => !existingIds.has(i.id));
+      return [...prev, ...filtered];
+    });
 
+    setOffset((prev) => prev + LIMIT);
     setLoading(false);
   }, [loading, hasMore, offset]);
 
@@ -68,7 +74,12 @@ export const CampaignAssignmentProvider = ({ children }: ProviderProps) => {
   );
 
   // LOAD PERTAMA
+  const initialized = useRef(false);
+
   useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+
     loadMore();
   }, []);
 
