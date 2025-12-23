@@ -11,6 +11,7 @@ export interface CampaignAssignment {
 export interface GetCampaignAssignmentOptions {
   limit?: number;
   offset?: number;
+  search?: string
   category?: CampaignCategory;
   sort?: "newest" | "oldest" | "remaining_days";
 }

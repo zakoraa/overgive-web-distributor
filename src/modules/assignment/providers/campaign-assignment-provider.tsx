@@ -2,107 +2,109 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useState,
-  useRef,
-  ReactNode,
   useEffect,
+  ReactNode,
 } from "react";
 import { CampaignAssignment } from "../types/campaign-assignment";
 import { getCampaignAssignments } from "../services/get-campaign-assignments";
 
-interface ProviderProps {
+interface CampaignAssignmentContextType {
+  assignments: CampaignAssignment[];
+  loading: boolean;
+  search: string;
+  setSearch: (value: string) => void;
+  loadMore: () => void;
+  hasMore: boolean;
+  refresh: () => void;
+}
+
+const CampaignAssignmentContext = createContext<
+  CampaignAssignmentContextType | undefined
+>(undefined);
+
+interface Props {
   children: ReactNode;
 }
 
-interface ContextType {
-  items: CampaignAssignment[];
-  loading: boolean;
-  hasMore: boolean;
-  loadMore: () => void;
-  search: string;
-  setSearch: (v: string) => void;
-  filtered: CampaignAssignment[];
-  scrollRef: React.RefObject<HTMLDivElement | null>;
-}
-
-export const CampaignAssignmentContext = createContext<ContextType | null>(
-  null,
-);
-
-export const CampaignAssignmentProvider = ({ children }: ProviderProps) => {
-  const [items, setItems] = useState<CampaignAssignment[]>([]);
+export function CampaignAssignmentProvider({ children }: Props) {
+  const [assignments, setAssignments] = useState<CampaignAssignment[]>([]);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [offset, setOffset] = useState(0);
-
-  const LIMIT = 10;
-
   const [search, setSearch] = useState("");
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 10;
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const loadMore = useCallback(async () => {
+  // Ambil data awal dan saat search berubah
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setOffset(0);
+
+      try {
+        const data = await getCampaignAssignments({ limit, offset: 0, search });
+        setAssignments(data);
+        setHasMore(data.length === limit);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [search]);
+
+  // Load more untuk infinite scroll
+  const loadMore = async () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
-
-    const res = await getCampaignAssignments({
-      limit: LIMIT,
-      offset,
-    });
-
-    if (res.length === 0) {
-      setHasMore(false);
+    try {
+      const nextOffset = offset + limit;
+      const data = await getCampaignAssignments({
+        limit,
+        offset: nextOffset,
+        search,
+      });
+      setAssignments((prev) => [...prev, ...data]);
+      setOffset(nextOffset);
+      setHasMore(data.length === limit);
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoading(false);
-      return;
     }
+  };
 
-    // cegah duplikasi kalau API balikin data yang sama
-    setItems((prev) => {
-      const existingIds = new Set(prev.map((i) => i.id));
-      const filtered = res.filter((i) => !existingIds.has(i.id));
-      return [...prev, ...filtered];
-    });
-
-    setOffset((prev) => prev + LIMIT);
-    setLoading(false);
-  }, [loading, hasMore, offset]);
-
-  const filtered = items.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  // LOAD PERTAMA
-  const initialized = useRef(false);
-
-  useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
-
-    loadMore();
-  }, []);
+  const refresh = async () => {
+    setSearch(""); // Reset search
+  };
 
   return (
     <CampaignAssignmentContext.Provider
       value={{
-        items,
+        assignments,
         loading,
-        hasMore,
-        loadMore,
         search,
         setSearch,
-        filtered,
-        scrollRef,
+        loadMore,
+        hasMore,
+        refresh,
       }}
     >
       {children}
     </CampaignAssignmentContext.Provider>
   );
-};
+}
 
-export const useCampaignAssignment = () => {
-  const ctx = useContext(CampaignAssignmentContext);
-  if (!ctx) throw new Error("Provider missing");
-  return ctx;
-};
+export function useCampaignAssignment() {
+  const context = useContext(CampaignAssignmentContext);
+  if (!context) {
+    throw new Error(
+      "useCampaignAssignment harus digunakan di dalam CampaignAssignmentProvider",
+    );
+  }
+  return context;
+}

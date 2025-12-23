@@ -11,8 +11,7 @@ export async function getCampaignAssignments(
     const {
         limit = 10,
         offset = 0,
-        category,
-        sort = "newest",
+        search = "",
     } = options;
 
     // ----------------------------------------------------
@@ -61,22 +60,8 @@ export async function getCampaignAssignments(
         .is("deleted_at", null)
         .range(offset, offset + limit - 1);
 
-    // Filter category jika dikirim
-    if (category) {
-        query = query.eq("campaign.category", category);
-    }
-
-    // ----------------------------------------------------
-    // Sorting
-    // ----------------------------------------------------
-    if (sort === "newest") {
-        query = query.order("created_at", { ascending: false });
-    }
-    if (sort === "oldest") {
-        query = query.order("created_at", { ascending: true });
-    }
-    if (sort === "remaining_days") {
-        query = query.order("endedAt", { ascending: true });
+    if (search.trim() !== "") {
+        query = query.ilike("campaigns.title", `%${search}%`);
     }
 
     const { data, error } = await query;
