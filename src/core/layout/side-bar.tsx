@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { TabItem, tabs } from "./tabs";
-import { Menu, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import AppLogo from "@/core/components/ui/app-logo";
+import BottomBar from "./bottom-bar";
 
 type SideBarProps = {
   activeTab: string;
@@ -13,14 +14,7 @@ export default function SideBar({ activeTab, setActiveTab }: SideBarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="z-50 bg-white overflow-y-hidden">
-      {/* Burger Button (Mobile Only) */}
-      <button
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="absolute top-4 right-4 z-50 rounded-md bg-white p-2 shadow-md lg:hidden"
-      >
-        <Menu className="h-6 w-6 text-gray-700" />
-      </button>
+    <div className="z-50 overflow-y-hidden bg-white">
 
       {/* Sidebar */}
       <div

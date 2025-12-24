@@ -9,6 +9,7 @@ import { ModalLoading } from "@/core/components/ui/modal/modal-loading";
 import { ModalInfo } from "@/core/components/ui/modal/modal-info";
 import { Account } from "@/modules/account";
 import { Assigment } from "@/modules/assignment";
+import BottomBar from "./bottom-bar";
 
 export default function AppLayout() {
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
@@ -42,6 +43,14 @@ export default function AppLayout() {
     <div className="flex h-screen">
       {/* Sidebar */}
       <SideBar
+        activeTab={tab}
+        setActiveTab={(name) => {
+          if (name === "logout") return setShowLogoutModal(true);
+          handleChangeTab(name);
+        }}
+      />
+
+      <BottomBar
         activeTab={tab}
         setActiveTab={(name) => {
           if (name === "logout") return setShowLogoutModal(true);
