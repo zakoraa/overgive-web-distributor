@@ -8,32 +8,43 @@ import { CampaignDelivaryCard } from "./components/campaign-delivery-card";
 import { AppButtonSm } from "@/core/components/ui/button/app-button-sm";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  CampaignDeliveryHistoriesProvider,
+  useCampaignDeliveryHistoriesContext,
+} from "./providers/get-campaign-delivery-histories-provider";
 
-export const Campaign = () => {
-  const route = useRouter();
+interface CampaignProps {
+  campaignId: string;
+}
 
+export const Campaign = ({ campaignId }: CampaignProps) => {
+  const router = useRouter();
+
+  const { search, setSearch } = useCampaignDeliveryHistoriesContext();
   return (
-    <div className="relative pb-20">
-      <Card className="m-auto p-6 lg:max-w-[50%]">
-        <Title text="Kabar Terbaru Kampanye" />
-        <Line />
-        <div className="mt-5 mb-3 flex items-center justify-between gap-10">
-          <SearchInput placeholder="Cari judul..." />
-        </div>
+      <div className="relative pb-20">
+        <Card className="m-auto p-6 lg:max-w-[50%] rounded-t-none">
+          <Title text="Kabar Terbaru Kampanye" />
+          <Line />
+          <div className="mt-5 mb-3 flex items-center justify-between gap-10">
+            <SearchInput
+              placeholder="Cari judul..."
+              value={search}
+              onChange={setSearch}
+            />
+          </div>
 
-        <CampaignDelivaryCard />
-      </Card>
+          <CampaignDelivaryCard />
+        </Card>
 
-      <Card className="fixed inset-x-0 bottom-0 mx-auto flex w-full items-center justify-center rounded-b-none bg-white px-6 py-4 lg:max-w-[50%]">
-        <AppButtonSm
-          onClick={() =>
-            route.push(`/campaign/73c4ee94-321c-4840-9104-f6fa0509c377/create/`)
-          }
-          text="Tambah Kabar"
-          icon={<PlusIcon />}
-          className="h-14 w-full!"
-        />
-      </Card>
-    </div>
+        <Card className="fixed inset-x-0 bottom-0 mx-auto flex w-full items-center justify-center rounded-b-none bg-white px-6 py-4 lg:max-w-[50%]">
+          <AppButtonSm
+            onClick={() => router.push(`/campaign/${campaignId}/create`)}
+            text="Tambah Kabar"
+            icon={<PlusIcon />}
+            className="h-14 w-full!"
+          />
+        </Card>
+      </div>
   );
 };
