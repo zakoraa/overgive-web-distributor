@@ -9,7 +9,6 @@ import { AppButtonSm } from "@/core/components/ui/button/app-button-sm";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
-  CampaignDeliveryHistoriesProvider,
   useCampaignDeliveryHistoriesContext,
 } from "./providers/get-campaign-delivery-histories-provider";
 
