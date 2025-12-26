@@ -1,3 +1,5 @@
+"use client";
+
 import { Title } from "@/core/components/text/title";
 import { Card } from "@/core/components/ui/card";
 import { Line } from "@/core/components/ui/line";
@@ -5,8 +7,11 @@ import SearchInput from "@/core/components/ui/search/search-input";
 import { CampaignDelivaryCard } from "./components/campaign-delivery-card";
 import { AppButtonSm } from "@/core/components/ui/button/app-button-sm";
 import { PlusIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const Campaign = () => {
+  const route = useRouter();
+
   return (
     <div className="relative pb-20">
       <Card className="m-auto p-6 lg:max-w-[50%]">
@@ -21,6 +26,9 @@ export const Campaign = () => {
 
       <Card className="fixed inset-x-0 bottom-0 mx-auto flex w-full items-center justify-center rounded-b-none bg-white px-6 py-4 lg:max-w-[50%]">
         <AppButtonSm
+          onClick={() =>
+            route.push(`/campaign/73c4ee94-321c-4840-9104-f6fa0509c377/create/`)
+          }
           text="Tambah Kabar"
           icon={<PlusIcon />}
           className="h-14 w-full!"

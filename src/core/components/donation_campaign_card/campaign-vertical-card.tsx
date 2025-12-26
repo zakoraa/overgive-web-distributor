@@ -35,14 +35,13 @@ export const CampaignVerticalCard = ({
         className="h-32 min-w-full rounded-t-2xl object-cover"
       />
 
-      <div className="m-3 flex flex-col justify-between space-y-2 h-full">
-        <Label
-          size="md"
-          className="cursor-pointer text-start font-bold"
-          text={title}
-        />
-
+      <div className="m-3 flex h-full flex-col justify-between space-y-2">
         <div className="flex flex-col items-start justify-start space-y-1">
+          <Label
+            size="md"
+            className="cursor-pointer text-start font-bold"
+            text={title}
+          />
           <div className="flex items-center justify-center gap-1">
             <Image
               src={"/icons/ic-latest-news.svg"}
@@ -56,11 +55,13 @@ export const CampaignVerticalCard = ({
           </p>
         </div>
 
-        {(remainingDays || remainingDays !== 0) ? (
+        {remainingDays || remainingDays !== 0 ? (
           <p className="mt-auto self-end text-end text-[11px]">
             {remainingDays} Hari Lagi
           </p>
-        ):<div></div>}
+        ) : (
+          <div></div>
+        )}
       </div>
     </Card>
   );

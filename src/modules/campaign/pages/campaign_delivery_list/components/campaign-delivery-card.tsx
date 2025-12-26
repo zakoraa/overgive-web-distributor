@@ -1,13 +1,10 @@
 "use client";
 import { Title } from "@/core/components/text/title";
 import { Card } from "@/core/components/ui/card";
-import { useRouter } from "next/navigation";
 
 export const CampaignDelivaryCard = () => {
-  const route = useRouter();
   return (
     <Card
-      onClick={() => route.push(`/campaign/73c4ee94-321c-4840-9104-f6fa0509c377/create/`)}
       className="hover:bg-hover cursor-pointer rounded-lg p-3 transition-colors duration-300 md:rounded-2xl"
     >
       <Title size="sm" text="Bantuan Untuk Sumatra" />

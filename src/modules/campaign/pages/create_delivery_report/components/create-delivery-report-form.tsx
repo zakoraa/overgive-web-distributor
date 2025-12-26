@@ -6,15 +6,20 @@ import AppRichTextEditor from "@/core/components/ui/input/app-rich-text-editor";
 import { ModalConfirm } from "@/core/components/ui/modal/modal-confirm";
 import { ModalInfo } from "@/core/components/ui/modal/modal-info";
 import { ModalLoading } from "@/core/components/ui/modal/modal-loading";
-import { useGetUsers } from "@/core/hooks/use-get-users";
 import { useGetCurrentUserContext } from "@/core/providers/use-get-current-user";
-import router from "next/router";
 import { AppInput } from "@/core/components/ui/input/app-input";
 import { useCreateReportValidation } from "../hooks/use-create-delivery-report-form-validation";
 import { useDeliveryReport } from "../hooks/use-create-delivery";
+import { useRouter } from "next/navigation";
 
-export const CreateDeliveryReportForm = () => {
-  //   const router = useRouter();
+interface CreateDeliveryReportFormProps {
+  campaignId: string;
+}
+
+export const CreateDeliveryReportForm = ({
+  campaignId,
+}: CreateDeliveryReportFormProps) => {
+    const router = useRouter();
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
@@ -29,14 +34,6 @@ export const CreateDeliveryReportForm = () => {
   const { loading, error, success, submit } = useDeliveryReport();
 
   const { user } = useGetCurrentUserContext();
-  const {
-    users,
-    isLoading: userLoading,
-    hasMore,
-    loadMore,
-    search,
-    setSearch,
-  } = useGetUsers();
 
   const [formData, setFormData] = useState<any>({
     title: "",
@@ -56,7 +53,12 @@ export const CreateDeliveryReportForm = () => {
       return;
     }
     try {
-      await submit(formData);
+      await submit(
+        {
+          ...formData,
+        },
+        campaignId,
+      );
 
       setModalInfoData({
         title: "Berhasil!",
@@ -87,7 +89,7 @@ export const CreateDeliveryReportForm = () => {
     setModalInfoOpen(false);
 
     if (modalInfoData.title === "Berhasil!") {
-      router.push("/?tab=assign-distributor");
+      router.push(`/campaign/${campaignId}`);
     }
   };
 
