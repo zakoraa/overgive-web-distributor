@@ -16,7 +16,7 @@ export async function getCampaignDeliveryHistories({
 
     let query = supabase
         .from("campaign_delivery_histories")
-        .select("*")
+        .select("id, title, note, created_at, blockchain_tx_hash")
         .eq("campaign_id", campaign_id)
         .order("created_at", { ascending: false });
 
@@ -34,30 +34,30 @@ export async function getCampaignDeliveryHistories({
         return [];
     }
 
-    // ⛓️ Ambil data blockchain (PARALLEL, bukan loop biasa)
     const results = await Promise.all(
         data.map(async (item) => {
+            const baseResult = {
+                id: item.id,
+                title: item.title,
+                note: item.note,
+                created_at: item.created_at,
+                blockchain_tx_hash: item.blockchain_tx_hash ?? null,
+                blockchain_input: null as string | null,
+            };
+
             if (!item.blockchain_tx_hash) {
-                return {
-                    ...item,
-                    blockchain: null,
-                };
+                return baseResult;
             }
 
             try {
-                const blockchain = await getTxByHash(
-                    item.blockchain_tx_hash
-                );
+                const tx = await getTxByHash(item.blockchain_tx_hash);
 
                 return {
-                    ...item,
-                    blockchain,
+                    ...baseResult,
+                    blockchain_input: tx.input ?? null,
                 };
             } catch {
-                return {
-                    ...item,
-                    blockchain: null,
-                };
+                return baseResult;
             }
         })
     );

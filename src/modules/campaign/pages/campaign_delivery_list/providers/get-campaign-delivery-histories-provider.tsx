@@ -5,11 +5,11 @@ import {
   useContext,
   ReactNode,
 } from "react";
-import { CampaignDeliveryHistory } from "../types/campaign-delivery-history";
+import { CampaignDeliveryHistoryList } from "../types/campaign-delivery-history";
 import { useCampaignDeliveryHistories } from "../hooks/use-get-campaign-delivery-histories";
 
 interface ContextValue {
-  data: CampaignDeliveryHistory[];
+  data: CampaignDeliveryHistoryList[];
   loading: boolean;
   error: string | null;
   search: string;

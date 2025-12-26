@@ -31,7 +31,7 @@ export const CampaignDelivaryCard = () => {
           <Title size="sm" text={item.title} />
           {item.note && (
             <div
-              className="prose prose-sm font-light line-clamp-2 max-w-none text-sm text-gray-500"
+              className="prose prose-sm font-light line-clamp-2 max-w-none text-xs text-gray-500"
               dangerouslySetInnerHTML={{ __html: item.note }}
             />
           )}
