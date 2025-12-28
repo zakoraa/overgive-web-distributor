@@ -3,7 +3,7 @@ import crypto from "crypto";
 export function generateCampaignDeliveryHash(data: {
   campaign_id: string;
   title: string;
-  note?: string;
+  note?: string | null;
   created_by: string;
 }) {
   const hashString = [
@@ -13,8 +13,5 @@ export function generateCampaignDeliveryHash(data: {
     data.created_by,
   ].join("|");
 
-  return crypto
-    .createHash("sha256")
-    .update(hashString)
-    .digest("hex");
+  return crypto.createHash("sha256").update(hashString).digest("hex");
 }

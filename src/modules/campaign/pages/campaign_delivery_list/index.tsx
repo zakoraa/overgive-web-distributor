@@ -4,7 +4,7 @@ import { Title } from "@/core/components/text/title";
 import { Card } from "@/core/components/ui/card";
 import { Line } from "@/core/components/ui/line";
 import SearchInput from "@/core/components/ui/search/search-input";
-import { CampaignDelivaryCard } from "./components/campaign-delivery-card";
+import { CampaignDelivaryCard } from "./components/campaign-delivery-card-list";
 import { AppButtonSm } from "@/core/components/ui/button/app-button-sm";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

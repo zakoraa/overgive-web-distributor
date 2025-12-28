@@ -1,0 +1,54 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { CampaignDeliveryHistoryList } from "../types/campaign-delivery-history";
+import { generateCampaignDeliveryHash } from "../../create_delivery_report/utils/generate-campaign-delivery-hash";
+import { extractDeliveryHistoryHashFromInput } from "@/modules/delivery_history_detail/utils/extract-delivery-history-hash-from-input";
+
+export function useVerifyCampaignDeliveryHistoryList(
+    history: CampaignDeliveryHistoryList | null
+) {
+    const [isValid, setIsValid] = useState<boolean | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!history || !history.blockchain_input) return;
+
+        const verify = async () => {
+            setLoading(true);
+
+            const regeneratedHash =
+                generateCampaignDeliveryHash({
+                    campaign_id: history.campaign_id,
+                    title: history.title,
+                    note: history.note,
+                    created_by: history.created_by?.id,
+                });
+            console.log("REGENREDD HASH: ", regeneratedHash);
+            console.log("history.blockchain_input: ", history.blockchain_input);
+            if (!history.blockchain_input) {
+                setIsValid(false);
+                setLoading(false);
+                return;
+            }
+            
+            const blockchainHash =
+            extractDeliveryHistoryHashFromInput(history.blockchain_input);
+            
+            console.log("blockchainHash: ", blockchainHash);
+            setIsValid(
+                blockchainHash !== null &&
+                regeneratedHash === blockchainHash
+            );
+
+            setLoading(false);
+        };
+
+        verify();
+    }, [history]);
+
+    return {
+        isValid,
+        loading,
+    };
+}
