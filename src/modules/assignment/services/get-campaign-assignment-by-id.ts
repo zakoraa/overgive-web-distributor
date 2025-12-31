@@ -19,7 +19,9 @@ export async function getDistributorAssignment(
         .eq("campaign_id", campaignId)
         .eq("distributor_id", distributorId)
         .is("deleted_at", null)
-        .maybeSingle(); 
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
 
     if (error) throw new Error(error.message);
     if (!data) return null;

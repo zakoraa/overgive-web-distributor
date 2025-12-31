@@ -1,7 +1,6 @@
 import { Title } from "@/core/components/text/title";
 import { Line } from "@/core/components/ui/line";
 import { Card } from "@/core/components/ui/card";
-import { useCampaignDeliveryHistoryDetailContext } from "@/modules/delivery_history_detail/providers/get-delivery-history-detail-provider";
 import { useDistributorAssignment } from "@/modules/assignment/hooks/use-distributor-by-id";
 import { useGetCurrentUserContext } from "@/core/providers/use-get-current-user";
 import CircularLoading from "@/core/components/ui/circular-loading";
@@ -39,12 +38,11 @@ export const DeliveryHistoryNotes = ({
               }}
             />
           )}
-          {!assignmentData ||
-            (assignmentError && (
-              <p className="mt-3 text-center text-sm text-gray-500">
-                Belum ada catatan
-              </p>
-            ))}
+          {(!assignmentData || assignmentError) && (
+            <p className="mt-3 text-center text-xs text-gray-500">
+              Belum ada catatan
+            </p>
+          )}
         </>
       )}
     </Card>
