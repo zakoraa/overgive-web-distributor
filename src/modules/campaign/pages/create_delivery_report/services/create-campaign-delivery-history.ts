@@ -1,38 +1,54 @@
-"use server";
+"use server"
 
-import { absoluteUrl } from "@/core/lib/absolute-url";
-
-export interface CreateCampaignDeliveryHistoryPayload {
-  campaign_id: string;
-  title: string;
-  note?: string;
-  created_by: string;
+import { generateCampaignDeliveryHash } from "@/modules/campaign/pages/create_delivery_report/utils/generate-campaign-delivery-hash";
+import { supabaseServer } from "@/core/lib/supabase/supabase-server";
+import { saveCampaignDeliveryToBlockchain } from "@/modules/campaign/pages/create_delivery_report/services/save-campaign-delivery-to-blockchain";
+interface CreateCampaignDeliveryHistoryInput {
+    campaign_id: string;
+    title: string;
+    note?: string;
+    created_by: string;
 }
 
-export interface CreateCampaignDeliveryHistoryResponse {
-  success: boolean;
-  data: any;
-  blockchain_tx_hash?: string | null;
-}
+export async function createCampaignDeliveryHistory(
+    input: CreateCampaignDeliveryHistoryInput
+) {
+    const delivery_hash = generateCampaignDeliveryHash(input);
 
-export async function createCampaignDeliveryHistoryClient(
-  payload: CreateCampaignDeliveryHistoryPayload
-): Promise<CreateCampaignDeliveryHistoryResponse> {
-  const url = await absoluteUrl(
-    "/api/campaign-delivery-histories/create"
-  );
+    const blockchainResult =
+        await saveCampaignDeliveryToBlockchain(
+            input.campaign_id,
+            input.title,
+            input.note ?? "",
+            delivery_hash,
+            Math.floor(Date.now() / 1000)
+        );
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+    const blockchain_tx_hash = blockchainResult.txHash ?? null;
 
-  const json = await res.json();
+    const supabase = await supabaseServer();
 
-  if (!res.ok) {
-    throw new Error(json.error || "Gagal membuat delivery history");
-  }
+    const { data, error } = await supabase
+        .from("campaign_delivery_histories")
+        .insert([
+            {
+                campaign_id: input.campaign_id,
+                title: input.title,
+                note: input.note ?? null,
+                created_by: input.created_by,
+                delivery_hash,
+                blockchain_tx_hash,
+            },
+        ])
+        .select()
+        .single();
 
-  return json;
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return {
+        data,
+        blockchain_tx_hash,
+    };
 }

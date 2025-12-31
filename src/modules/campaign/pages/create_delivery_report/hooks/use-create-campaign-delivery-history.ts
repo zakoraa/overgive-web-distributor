@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createCampaignDeliveryHistoryClient, CreateCampaignDeliveryHistoryPayload } from "../services/create-campaign-delivery-history";
+import { createCampaignDeliveryHistoryClient, CreateCampaignDeliveryHistoryPayload } from "../services/create-campaign-delivery-history-action";
 
 
 export function useCreateCampaignDeliveryHistory() {
