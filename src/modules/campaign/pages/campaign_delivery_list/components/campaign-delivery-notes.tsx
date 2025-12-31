@@ -23,8 +23,6 @@ export const DeliveryHistoryNotes = ({
     ? useDistributorAssignment(campaignId, user.id)
     : { data: null, loading: false, error: null };
 
-  if (assignmentError) return <></>;
-
   return (
     <Card className="m-auto p-6 lg:max-w-[50%]">
       <Title text={"Catatan untuk Distributor"} />
@@ -41,6 +39,12 @@ export const DeliveryHistoryNotes = ({
               }}
             />
           )}
+          {!assignmentData ||
+            (assignmentError && (
+              <p className="mt-3 text-center text-sm text-gray-500">
+                Belum ada catatan
+              </p>
+            ))}
         </>
       )}
     </Card>
