@@ -1,44 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getCampaignDeliveryHistoryById } from "../services/get-delivery-history-detail";
 import { CampaignDeliveryHistoryDetail } from "../types/get-delivery-history-detail";
 
-export function useCampaignDeliveryHistoryDetail(
-    campaignDeliveryHistoryId: string
-) {
-    const [data, setData] =
-        useState<CampaignDeliveryHistoryDetail | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchDetail = async () => {
-        if (!campaignDeliveryHistoryId) return;
-
-        setLoading(true);
-        setError(null);
-
-        try {
-            const result = await getCampaignDeliveryHistoryById({
+export function useCampaignDeliveryHistoryDetail(campaignDeliveryHistoryId: string) {
+    const query = useQuery<CampaignDeliveryHistoryDetail | null>({
+        queryKey: ["campaign-delivery-history-detail", campaignDeliveryHistoryId],
+        queryFn: () =>
+            getCampaignDeliveryHistoryById({
                 campaign_delivery_history_id: campaignDeliveryHistoryId,
-            });
-
-            setData(result);
-        } catch (e: any) {
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchDetail();
-    }, [campaignDeliveryHistoryId]);
+            }),
+        enabled: !!campaignDeliveryHistoryId,
+        staleTime: 5 * 60 * 1000,
+        gcTime: 30 * 60 * 1000,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
 
     return {
-        data,
-        loading,
-        error,
-        refresh: fetchDetail,
+        data: query.data ?? null,
+        loading: query.isLoading,
+        error: query.error instanceof Error ? query.error.message : null,
+        refresh: query.refetch,
     };
 }

@@ -89,7 +89,7 @@ export const CreateDeliveryReportForm = ({
     setModalInfoOpen(false);
 
     if (modalInfoData.title === "Berhasil!") {
-      router.push(`/campaign/${campaignId}`);
+      router.replace(`/campaign/${campaignId}`);
     }
   };
 

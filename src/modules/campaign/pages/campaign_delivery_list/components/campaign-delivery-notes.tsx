@@ -1,0 +1,48 @@
+import { Title } from "@/core/components/text/title";
+import { Line } from "@/core/components/ui/line";
+import { Card } from "@/core/components/ui/card";
+import { useCampaignDeliveryHistoryDetailContext } from "@/modules/delivery_history_detail/providers/get-delivery-history-detail-provider";
+import { useDistributorAssignment } from "@/modules/assignment/hooks/use-distributor-by-id";
+import { useGetCurrentUserContext } from "@/core/providers/use-get-current-user";
+import CircularLoading from "@/core/components/ui/circular-loading";
+
+interface DeliveryHistoryNotesProps {
+  campaignId: string;
+}
+
+export const DeliveryHistoryNotes = ({
+  campaignId,
+}: DeliveryHistoryNotesProps) => {
+  const { user, loading: userLoading } = useGetCurrentUserContext();
+
+  const {
+    data: assignmentData,
+    loading: assignmentLoading,
+    error: assignmentError,
+  } = campaignId && user?.id
+    ? useDistributorAssignment(campaignId, user.id)
+    : { data: null, loading: false, error: null };
+
+  if (assignmentError) return <></>;
+
+  return (
+    <Card className="m-auto p-6 lg:max-w-[50%]">
+      <Title text={"Catatan untuk Distributor"} />
+      <Line />
+      {(userLoading || assignmentLoading) && <CircularLoading />}
+
+      {!userLoading && !assignmentLoading && (
+        <>
+          {assignmentData && !assignmentError && (
+            <div
+              className="prose max-w-none text-sm text-gray-600"
+              dangerouslySetInnerHTML={{
+                __html: assignmentData?.notes ?? "",
+              }}
+            />
+          )}
+        </>
+      )}
+    </Card>
+  );
+};

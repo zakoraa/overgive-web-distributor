@@ -1,7 +1,4 @@
-"use client";
-
-import { Campaign } from "@/modules/campaign/pages/campaign_delivery_list";
-import { CampaignDeliveryHistoriesProvider } from "@/modules/campaign/pages/campaign_delivery_list/providers/get-campaign-delivery-histories-provider";
+import { CampaignPage } from "@/modules/campaign/pages/campaign_delivery_list";
 
 interface PageProps {
   params: Promise<{
@@ -12,9 +9,5 @@ interface PageProps {
 export default async function Page({ params }: PageProps) {
   const { id } = await params;
 
-  return (
-    <CampaignDeliveryHistoriesProvider campaignId={id}>
-      <Campaign campaignId={id} />;
-    </CampaignDeliveryHistoriesProvider>
-  );
+  return <CampaignPage campaignId={id} />;
 }
