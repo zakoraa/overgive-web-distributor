@@ -30,6 +30,7 @@ export async function POST(req: Request) {
       blockchain_tx_hash: result.blockchain_tx_hash,
     });
   } catch (e: any) {
+    console.log("ERRORO: ", e)
     return NextResponse.json(
       { error: e.message },
       { status: 500 }

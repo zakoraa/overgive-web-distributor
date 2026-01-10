@@ -13,11 +13,15 @@ export const CreateDeliveryReport = ({
     <main className="container px-4 py-5 lg:px-8">
       <Title text="Tambah Laporan Pengiriman" />
       <p className="text-sm text-gray-500">
-       Buat penugasan baru untuk distributor agar mereka dapat menjalankan
-        kampanye dengan jelas dan terstruktur. Isi informasi penting seperti
-        distributor yang ditugaskan dan catatan tambahan untuk memastikan
-        koordinasi yang tepat.
+        Buat laporan penyaluran donasi baru dengan lengkap dan akurat, agar
+        seluruh penggunaan dana tercatat dengan transparan dan dapat
+        dipertanggungjawabkan. <br />
+        <span className="font-bold text-red-600">
+          Perhatian: Laporan ini tersimpan permanen di blockchain dan tidak
+          dapat diubah atau dihapus.
+        </span>
       </p>
+
       <Line />
       <CreateDeliveryReportForm campaignId={campaignId} />
     </main>

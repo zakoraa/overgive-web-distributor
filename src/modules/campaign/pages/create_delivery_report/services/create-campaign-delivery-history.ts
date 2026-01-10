@@ -18,8 +18,6 @@ export async function createCampaignDeliveryHistory(
     const blockchainResult =
         await saveCampaignDeliveryToBlockchain(
             input.campaign_id,
-            input.title,
-            input.note ?? "",
             delivery_hash,
             Math.floor(Date.now() / 1000)
         );

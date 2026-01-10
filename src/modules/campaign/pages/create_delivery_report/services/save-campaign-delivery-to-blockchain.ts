@@ -3,8 +3,6 @@ import { CAMPAIGN_DELIVERY_ABI } from "../lib/abi/campaign-delivery-histories-ab
 
 export async function saveCampaignDeliveryToBlockchain(
   campaignId: string,
-  title: string,
-  note: string,
   deliveryHash: string,
   confirmedAt: number
 ): Promise<{
@@ -38,8 +36,6 @@ export async function saveCampaignDeliveryToBlockchain(
 
   const tx = await contract.storeCampaignDelivery(
     campaignId,
-    title,
-    note,
     deliveryHashBytes32,
     BigInt(confirmedAt)
   );

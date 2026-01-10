@@ -11,6 +11,7 @@ import { AppInput } from "@/core/components/ui/input/app-input";
 import { useCreateReportValidation } from "../hooks/use-create-delivery-report-form-validation";
 import { useDeliveryReport } from "../hooks/use-create-delivery";
 import { useRouter } from "next/navigation";
+import { DeliveryHistoryReportTemplateModal } from "./delivery-history-report-template-modal";
 
 interface CreateDeliveryReportFormProps {
   campaignId: string;
@@ -19,7 +20,7 @@ interface CreateDeliveryReportFormProps {
 export const CreateDeliveryReportForm = ({
   campaignId,
 }: CreateDeliveryReportFormProps) => {
-    const router = useRouter();
+  const router = useRouter();
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
@@ -121,6 +122,8 @@ export const CreateDeliveryReportForm = ({
             }))
           }
         />
+
+        <DeliveryHistoryReportTemplateModal />
 
         <AppRichTextEditor
           required
