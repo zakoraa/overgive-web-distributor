@@ -20,9 +20,6 @@ export const DeliveryHistoryReportTemplateModal = () => {
       <br/>
       <h2 style="font-weight:bold;">2. Dokumentasi Kegiatan</h2>
       <p>Ceritakan kegiatan beserta kronologi dan hasilnya, sertakan foto sebagai dokumentasi.</p>
-      <br/>
-
-      <p style="text-align: right; margin-top: 40px;">Dibuat oleh: [Nama Distributor] <br> Tanggal: [Isi Tanggal]</p>
     </div>
   `;
 
@@ -45,9 +42,6 @@ export const DeliveryHistoryReportTemplateModal = () => {
   <img src="/images/example-2.webp" alt="Distribusi Obat-obatan" style="margin:10px 0; width:100%; max-width:400px;" />
 
   <p>Pada sore harinya, dokumentasi kegiatan dilakukan dengan mencatat kronologi distribusi, mengumpulkan foto, dan menulis catatan penting tentang respons masyarakat dan kebutuhan tambahan. Narasi ini dibuat sebagai bahan laporan transparansi penggunaan dana donasi, sekaligus evaluasi kegiatan agar program selanjutnya lebih optimal. Seluruh kegiatan berjalan lancar tanpa kendala signifikan, dan antusiasme penerima bantuan sangat tinggi. Foto-foto yang diambil menjadi bukti nyata bahwa bantuan sampai ke tangan yang membutuhkan, serta memperkuat kepercayaan donatur terhadap transparansi program.</p>
-  <br/>
-
-  <p style="text-align: right; margin-top: 40px;">Dibuat oleh: Maulana <br> Tanggal: 5 Januari 2026</p>
 </div>
 `;
 
