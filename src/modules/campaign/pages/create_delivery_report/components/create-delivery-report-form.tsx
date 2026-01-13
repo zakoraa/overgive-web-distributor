@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { AppButton } from "@/core/components/ui/button/app-button";
-import AppRichTextEditor from "@/core/components/ui/input/app-rich-text-editor";
 import { ModalConfirm } from "@/core/components/ui/modal/modal-confirm";
 import { ModalInfo } from "@/core/components/ui/modal/modal-info";
 import { ModalLoading } from "@/core/components/ui/modal/modal-loading";
@@ -12,6 +11,7 @@ import { useCreateReportValidation } from "../hooks/use-create-delivery-report-f
 import { useDeliveryReport } from "../hooks/use-create-delivery";
 import { useRouter } from "next/navigation";
 import { DeliveryHistoryReportTemplateModal } from "./delivery-history-report-template-modal";
+import EditorClient from "@/core/components/ui/input/app-rich-text-editor/components/Editor/EditorClient";
 
 interface CreateDeliveryReportFormProps {
   campaignId: string;
@@ -125,7 +125,7 @@ export const CreateDeliveryReportForm = ({
 
         <DeliveryHistoryReportTemplateModal />
 
-        <AppRichTextEditor
+        <EditorClient
           required
           error={errors.note}
           label="Isi Laporan Pengiriman"
@@ -137,7 +137,7 @@ export const CreateDeliveryReportForm = ({
         <AppButton
           type="submit"
           text="Tambah Laporan Pengiriman"
-          className="w-full!"
+          className="w-full! mt-5"
         />
       </form>
 
