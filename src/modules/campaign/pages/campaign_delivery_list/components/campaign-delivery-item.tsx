@@ -24,12 +24,15 @@ export const CampaignDeliveryItem = ({ item }: CampaignDeliveryItemProps) => {
       className="hover:bg-hover cursor-pointer rounded-lg p-3 transition-colors duration-300 md:rounded-2xl"
     >
       <Title size="sm" text={item.title} />
-      <Line />
+      <Line className="mb-0!" />
+
       {item.note && (
         <div className="prose prose-sm line-clamp-2 max-w-none">
           <RichTextViewer content={item.note} />
         </div>
       )}
+      <Line className="mb-0!" />
+
       {isValidating ? (
         <></>
       ) : isValid ? (
