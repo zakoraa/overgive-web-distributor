@@ -31,9 +31,17 @@ export const DeliveryHistoryNotes = ({
 
       {!userLoading && !assignmentLoading && (
         <>
-          {assignmentData && !assignmentError && (
-            <RichTextViewer content={assignmentData?.notes ?? "Belum ada catatan"} />
-          )}
+          {assignmentData &&
+            !assignmentError &&
+            (assignmentData?.notes !== "" ? (
+              <RichTextViewer
+                content={assignmentData?.notes ?? "Belum ada catatan"}
+              />
+            ) : (
+              <p className="mt-3 text-center text-xs text-gray-500">
+                Belum ada catatan
+              </p>
+            ))}
 
           {(!assignmentData || assignmentError) && (
             <p className="mt-3 text-center text-xs text-gray-500">
