@@ -13,6 +13,7 @@ export const DeliveryHistoryReportTemplateModal = () => {
   // Template kosong
   const templateHTML = `
 <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; font-size: 16px;">
+  <p dir="auto"><span style="font-size: 20px;"><strong>Total Dana Bersih: Rp</strong></span></p>
 
   <p dir="auto"><span style="font-size: 20px;"><strong>1. Rincian Penggunaan Dana Bersih</strong></span></p>
   <table style="width:100%; border-collapse: collapse; margin-bottom:16px;">
@@ -47,6 +48,7 @@ export const DeliveryHistoryReportTemplateModal = () => {
   // Contoh isi nyata
   const exampleHTML = `
 <div style="font-family: Arial, sans-serif; line-height:1.8; color:#333; font-size:16px;">
+  <p dir="auto"><span style="font-size: 20px;"><strong>Total Dana Bersih: Rp 10.500.000</strong></span></p>
 
   <p dir="auto"><span style="font-size: 20px;"><strong>1. Rincian Penggunaan Dana Bersih</strong></span></p>
   <table style="width:100%; border-collapse: collapse; margin-bottom:16px;">
