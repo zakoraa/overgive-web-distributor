@@ -10,6 +10,10 @@ export async function saveCampaignDeliveryToBlockchain(
   blockNumber: number;
   gasUsed: string;
 }> {
+  if (!campaignId || !deliveryHash) {
+    throw new Error("Invalid campaign data");
+  }
+
   if (
     !process.env.CONTRACT_RPC ||
     !process.env.CONTRACT_PRIVATE_KEY ||
