@@ -89,7 +89,7 @@ describe("Unit Test saveCampaignDeliveryToBlockchain", () => {
         "abcdef",
         1700000000
       )
-    ).rejects.toThrow("Invalid campaign data"); // perlu validasi di fungsi
+    ).rejects.toThrow("Invalid data"); // perlu validasi di fungsi
   });
 
   it("Error Path: gagal jika data campaign tidak valid (deliveryHash kosong)", async () => {
@@ -99,6 +99,6 @@ describe("Unit Test saveCampaignDeliveryToBlockchain", () => {
         "", // deliveryHash kosong
         1700000000
       )
-    ).rejects.toThrow("Invalid campaign data"); // perlu validasi di fungsi
+    ).rejects.toThrow("Invalid data"); // perlu validasi di fungsi
   });
 });

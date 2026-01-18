@@ -11,7 +11,7 @@ export async function saveCampaignDeliveryToBlockchain(
   gasUsed: string;
 }> {
   if (!campaignId || !deliveryHash) {
-    throw new Error("Invalid campaign data");
+    throw new Error("Invalid data");
   }
 
   if (
